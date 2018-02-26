@@ -17,6 +17,7 @@ OFILES=\
 	file.o\
 	heap.o\
 	job.o\
+	snowflake.o \
 	ms.o\
 	net.o\
 	primes.o\

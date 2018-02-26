@@ -2,8 +2,15 @@
 #include <stdlib.h>
 #include <string.h>
 #include "dat.h"
+#include "snowflake.h"
 
-static uint64 next_id = 1;
+snowflake_st st= {
+    .last_timestamp = 0,
+    .datacenter = 0,
+    .machine = 0,
+    .seq = 0
+};
+
 
 static int cur_prime = 0;
 
@@ -115,9 +122,9 @@ make_job_with_id(uint pri, int64 delay, int64 ttr,
 
     if (id) {
         j->r.id = id;
-        if (id >= next_id) next_id = id + 1;
+        // if (id >= next_id) next_id = id + 1;
     } else {
-        j->r.id = next_id++;
+        j->r.id = snowflake_id(st);
     }
     j->r.pri = pri;
     j->r.delay = delay;
@@ -249,7 +256,7 @@ job_insert(job head, job j)
 uint64
 total_jobs()
 {
-    return next_id - 1;
+    return 0;
 }
 
 /* for unit tests */

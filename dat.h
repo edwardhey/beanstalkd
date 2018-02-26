@@ -15,7 +15,7 @@ typedef uint64_t      uint64;
 #define int32_t  do_not_use_int32_t
 #define uint32_t do_not_use_uint32_t
 #define int64_t  do_not_use_int64_t
-#define uint64_t do_not_use_uint64_t
+// #define uint64_t do_not_use_uint64_t
 
 typedef struct ms     *ms;
 typedef struct job    *job;
