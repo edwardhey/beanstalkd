@@ -4,13 +4,14 @@
 #include "dat.h"
 #include "snowflake.h"
 
-snowflake_st st= {
+static snowflake_st st= {
     .last_timestamp = 0,
     .datacenter = 0,
     .machine = 0,
     .seq = 0
 };
 
+static uint64 next_id = 0;
 
 static int cur_prime = 0;
 
@@ -125,6 +126,7 @@ make_job_with_id(uint pri, int64 delay, int64 ttr,
         // if (id >= next_id) next_id = id + 1;
     } else {
         j->r.id = snowflake_id(st);
+        next_id++;
     }
     j->r.pri = pri;
     j->r.delay = delay;
@@ -256,7 +258,7 @@ job_insert(job head, job j)
 uint64
 total_jobs()
 {
-    return 0;
+    return next_id;
 }
 
 /* for unit tests */
