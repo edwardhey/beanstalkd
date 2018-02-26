@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "*.go": "go",
+        "stdint.h": "c",
+        "snowflake.h": "c",
+        "fcntl.h": "c",
+        "dat.h": "c",
+        "time.h": "c",
+        "stdlib.h": "c",
+        "string.h": "c"
+    }
+}
