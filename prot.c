@@ -1188,7 +1188,7 @@ dispatch_cmd(Conn *c)
     uint count;
     job j = 0;
     byte type;
-    char *size_buf, *delay_buf, *ttr_buf, *pri_buf, *end_buf, *name;
+    char *size_buf, *delay_buf, *ttr_buf, *pri_buf, *end_buf, *name, *id_buf;
     uint pri, body_size;
     int64 delay, ttr;
     uint64 id;
@@ -1218,8 +1218,11 @@ dispatch_cmd(Conn *c)
         r = read_ttr(&ttr, ttr_buf, &size_buf);
         if (r) return reply_msg(c, MSG_BAD_FORMAT);
 
+        id = strtoull(size_buf, &id_buf, 10);
+        if (errno) return reply_msg(c, MSG_BAD_FORMAT);
+
         errno = 0;
-        body_size = strtoul(size_buf, &end_buf, 10);
+        body_size = strtoul(id_buf, &end_buf, 10);
         if (errno) return reply_msg(c, MSG_BAD_FORMAT);
 
         op_ct[type]++;
@@ -1238,7 +1241,7 @@ dispatch_cmd(Conn *c)
             ttr = 1000000000;
         }
 
-        c->in_job = make_job(pri, delay, ttr, body_size + 2, c->use);
+        c->in_job = make_job_with_id(pri, delay, ttr, body_size + 2, c->use, id);
 
         /* OOM? */
         if (!c->in_job) {
